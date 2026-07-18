@@ -212,11 +212,12 @@ async function placeOrder() {
     $('#receiptModal').classList.add('show');
     $('#receiptModal').setAttribute('aria-hidden', 'false');
 
-    // reset cart after successful order
+    // reset cart + billing after successful order (fresh state)
     cart = [];
     saveCart();
     renderCart();
     bumpCount();
+    resetBilling();
   } catch (e) {
     toast('Order failed: ' + e.message);
   } finally {
@@ -264,10 +265,15 @@ async function loadMenu(retry = 0) {
 }
 
 /* ---------- Misc ---------- */
+function resetBilling() {
+  const form = $('#billingForm');
+  if (form) form.reset();
+}
 function closeAllModals() {
   closeCheckout();
   $('#receiptModal').classList.remove('show');
   $('#receiptModal').setAttribute('aria-hidden', 'true');
+  resetBilling();
 }
 let toastTimer;
 function toast(msg) {
