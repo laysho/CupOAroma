@@ -355,7 +355,7 @@ h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--brown); line-h
 .section-head p { color: var(--brown-soft); max-width: 34rem; margin: 0 auto; }
 
 .card-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 1.5rem;
 }
 .menu-card {
   background: var(--card-bg); border-radius: var(--radius); padding: 1.4rem;
