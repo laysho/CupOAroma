@@ -239,7 +239,7 @@ function cardHTML(p) {
 function escapeAttr(str) {
   return String(str).replace(/"/g, '&quot;').replace(/</g, '&lt;');
 }
-async function loadMenu() {
+async function loadMenu(retry = 0) {
   try {
     const res = await fetch('/api/menu');
     if (!res.ok) throw new Error('Menu load failed');
@@ -247,7 +247,12 @@ async function loadMenu() {
     $('#coffeeGrid').innerHTML = menu.coffee.map(cardHTML).join('');
     $('#pastriesGrid').innerHTML = menu.pastries.map(cardHTML).join('');
   } catch (e) {
-    $('#coffeeGrid').innerHTML = '<p class="cart-empty">Could not load menu. Is the server running? 😕</p>';
+    if (retry < 3) { setTimeout(() => loadMenu(retry + 1), 800); return; }
+    $('#coffeeGrid').innerHTML =
+      '<p class="cart-empty">Could not load menu. Is the server running? 😕 ' +
+      '<button class="btn btn-pill" id="retryMenu">Retry</button></p>';
+    const rb = $('#retryMenu');
+    if (rb) rb.addEventListener('click', () => loadMenu());
   }
 }
 
