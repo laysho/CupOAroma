@@ -141,7 +141,7 @@ h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--brown); line-h
 .modal-head h3 { font-size: 1.5rem; }
 .modal-body { padding: 1.4rem 1.6rem; }
 .modal-foot {
-  display: flex; gap: .8rem; justify-content: flex-end; padding: 1.1rem 1.6rem;
+  display: flex; gap: .8rem; justify-content: center; padding: 1.1rem 1.6rem;
   border-top: 1px solid rgba(160,130,110,0.14);
 }
 
@@ -255,6 +255,24 @@ h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--brown); line-h
   transition: color .15s ease;
 }
 .nav-links a:hover { color: var(--brown); }
+.nav-links a.active { color: var(--brown); font-weight: 600; position: relative; }
+.nav-links a.active::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -6px; height: 3px;
+  border-radius: 999px; background: var(--pink);
+}
+
+/* Cart delete button */
+.cart-del {
+  background: transparent; border: none; cursor: pointer; font-size: 1.05rem;
+  align-self: center; padding: .2rem .3rem; border-radius: 8px; transition: background .15s ease, transform .12s ease;
+}
+.cart-del:hover { background: var(--pink-soft); transform: scale(1.08); }
+
+/* Confirm modal */
+.confirm-box { width: 380px; max-width: calc(100vw - 2rem); text-align: center; }
+.confirm-body { padding: 1.6rem 1.4rem 1rem; font-size: 1rem; color: var(--brown); }
+.confirm-foot { justify-content: center; }
+
 .nav-toggle { display: none; }
 @media (max-width: 900px) {
   .nav-toggle {

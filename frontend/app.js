@@ -53,11 +53,17 @@ function addToCart(id, name, price, emoji, qty = 1) {
 function changeQty(id, delta) {
   const item = findItem(id);
   if (!item) return;
+  if (delta < 0 && item.qty + delta <= 0) {
+    // Would drop to 0 → confirm before removing
+    askConfirm(`Remove ${item.name} from your cart?`, () => {
+      cart = cart.filter((c) => c.id !== id);
+      saveCart(); renderCart(); bumpCount();
+      toast(`${item.name} removed 🗑`);
+    });
+    return;
+  }
   item.qty += delta;
-  if (item.qty <= 0) cart = cart.filter((c) => c.id !== id);
-  saveCart();
-  renderCart();
-  bumpCount();
+  saveCart(); renderCart(); bumpCount();
 }
 const cartCount = () => cart.reduce((s, c) => s + c.qty, 0);
 const cartSubtotal = () => cart.reduce((s, c) => s + c.price * c.qty, 0);
@@ -90,7 +96,8 @@ function renderCart() {
           <span>${item.qty}</span>
           <button data-act="inc" data-id="${item.id}" aria-label="Increase">+</button>
         </div>
-        <div class="cart-line">${fmt(item.price * item.qty)}</div>`;
+        <div class="cart-line">${fmt(item.price * item.qty)}</div>
+        <button class="cart-del" data-del="${item.id}" aria-label="Remove item" title="Remove">🗑</button>`;
       wrap.appendChild(row);
     });
   }
@@ -271,11 +278,56 @@ function toast(msg) {
   toastTimer = setTimeout(() => t.classList.remove('show'), 1800);
 }
 
+/* ---------- Confirm dialog ---------- */
+let confirmAction = null;
+function askConfirm(message, onConfirm) {
+  confirmAction = onConfirm;
+  $('#confirmMsg').textContent = message;
+  $('#confirmModal').classList.add('show');
+  $('#confirmModal').setAttribute('aria-hidden', 'false');
+}
+function closeConfirm() {
+  $('#confirmModal').classList.remove('show');
+  $('#confirmModal').setAttribute('aria-hidden', 'true');
+  confirmAction = null;
+}
+$('#confirmOk').addEventListener('click', () => {
+  const fn = confirmAction;
+  closeConfirm();
+  if (fn) fn();
+});
+$('#confirmCancel').addEventListener('click', closeConfirm);
+$('#confirmModal').addEventListener('click', (e) => { if (e.target.id === 'confirmModal') closeConfirm(); });
+
+/* ---------- Scroll spy (navbar active indicator) ---------- */
+const navLinksAll = Array.from(document.querySelectorAll('.nav-links a[data-section]'));
+function updateActiveNav() {
+  const pos = window.scrollY + 120;
+  let current = '';
+  ['menu', 'pastries', 'story', 'visit'].forEach((id) => {
+    const sec = document.getElementById(id);
+    if (sec && sec.offsetTop <= pos) current = id;
+  });
+  navLinksAll.forEach((a) => a.classList.toggle('active', a.dataset.section === current));
+}
+window.addEventListener('scroll', updateActiveNav, { passive: true });
+
 /* ---------- Events ---------- */
 document.addEventListener('click', (e) => {
   const addBtn = e.target.closest('.add-btn');
   if (addBtn) {
     openQty(addBtn.closest('.menu-card'));
+    return;
+  }
+  const delBtn = e.target.closest('.cart-del');
+  if (delBtn) {
+    const id = delBtn.dataset.del;
+    const it = findItem(id);
+    askConfirm(`Remove ${it ? it.name : 'this item'} from your cart?`, () => {
+      cart = cart.filter((c) => c.id !== id);
+      saveCart(); renderCart(); bumpCount();
+      toast(`${it ? it.name : 'Item'} removed 🗑`);
+    });
     return;
   }
   const qtyBtn = e.target.closest('.qty-control button');
