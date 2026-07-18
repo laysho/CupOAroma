@@ -9,3 +9,5 @@ backend/data/orders.json
 .DS_Store
 Thumbs.db
 *.log
+
+.vercel

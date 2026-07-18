@@ -298,6 +298,21 @@ $('#placeOrderBtn').addEventListener('click', placeOrder);
 $('#newOrderBtn').addEventListener('click', closeAllModals);
 $('#printReceipt').addEventListener('click', () => window.print());
 
+const navToggle = $('#navToggle');
+const navLinks = $('#navLinks');
+if (navToggle) {
+  navToggle.addEventListener('click', () => {
+    const open = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  navLinks.querySelectorAll('a').forEach((a) =>
+    a.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    })
+  );
+}
+
 $('#qtyModal').addEventListener('click', (e) => { if (e.target.id === 'qtyModal') closeQty(); });
 $('#checkoutModal').addEventListener('click', (e) => { if (e.target.id === 'checkoutModal') closeCheckout(); });
 $('#receiptModal').addEventListener('click', (e) => { if (e.target.id === 'receiptModal') closeAllModals(); });
