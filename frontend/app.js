@@ -252,8 +252,12 @@ async function loadMenu(retry = 0) {
     const res = await fetch('/api/menu');
     if (!res.ok) throw new Error('Menu load failed');
     menu = await res.json();
-    $('#coffeeGrid').innerHTML = menu.coffee.map(cardHTML).join('');
-    $('#pastriesGrid').innerHTML = menu.pastries.map(cardHTML).join('');
+    const bestCoffee = menu.coffee.filter((p) => p.best);
+    const bestPastries = menu.pastries.filter((p) => p.best);
+    $('#coffeeGrid').innerHTML = bestCoffee.map(cardHTML).join('');
+    $('#pastriesGrid').innerHTML = bestPastries.map(cardHTML).join('');
+    $('#allCoffeeGrid').innerHTML = menu.coffee.map(cardHTML).join('');
+    $('#allPastriesGrid').innerHTML = menu.pastries.map(cardHTML).join('');
   } catch (e) {
     if (retry < 3) { setTimeout(() => loadMenu(retry + 1), 800); return; }
     $('#coffeeGrid').innerHTML =
@@ -310,7 +314,7 @@ const navLinksAll = Array.from(document.querySelectorAll('.nav-links a[data-sect
 function updateActiveNav() {
   const pos = window.scrollY + 120;
   let current = '';
-  ['menu', 'pastries', 'story', 'visit'].forEach((id) => {
+  ['menu', 'pastries', 'all', 'story', 'visit'].forEach((id) => {
     const sec = document.getElementById(id);
     if (sec && sec.offsetTop <= pos) current = id;
   });

@@ -7,6 +7,7 @@
       "emoji": "☕",
       "color": "pink",
       "tag": "Bestseller",
+      "best": true,
       "desc": "Double shot, steamed milk, a whisper of vanilla bean."
     },
     {
@@ -16,6 +17,7 @@
       "emoji": "🍵",
       "color": "mint",
       "tag": "Vegan",
+      "best": true,
       "desc": "Stone-ground matcha, oat milk, light honey."
     },
     {
@@ -25,6 +27,7 @@
       "emoji": "🥃",
       "color": "peach",
       "tag": "New",
+      "best": true,
       "desc": "Equal parts espresso and warm milk, sea-salt caramel."
     },
     {
@@ -34,7 +37,44 @@
       "emoji": "🧊",
       "color": "lav",
       "tag": "Iced",
+      "best": true,
       "desc": "Cold brew, cocoa, honey drizzle over ice."
+    },
+    {
+      "id": "americano",
+      "name": "Classic Americano",
+      "price": 195,
+      "emoji": "☕",
+      "color": "peach",
+      "tag": "Clean",
+      "desc": "Smooth espresso cut with hot water. No fuss, all flavour."
+    },
+    {
+      "id": "cappuccino",
+      "name": "Cloud Cappuccino",
+      "price": 240,
+      "emoji": "🫧",
+      "color": "mint",
+      "tag": "Airy",
+      "desc": "Espresso, steamed milk, a thick cap of microfoam."
+    },
+    {
+      "id": "flatwhite",
+      "name": "Flat White",
+      "price": 255,
+      "emoji": "🥛",
+      "color": "pink",
+      "tag": "Silky",
+      "desc": "Double ristretto, velvet milk, a dot of latte art."
+    },
+    {
+      "id": "spanish",
+      "name": "Spanish Latte",
+      "price": 275,
+      "emoji": "🍯",
+      "color": "lav",
+      "tag": "Sweet",
+      "desc": "Espresso with condensed milk — cozy and a touch sweet."
     }
   ],
   "pastries": [
@@ -45,6 +85,7 @@
       "emoji": "🥐",
       "color": "peach",
       "tag": "Classic",
+      "best": true,
       "desc": "48-hour laminated dough, flaky to the last crumb."
     },
     {
@@ -54,6 +95,7 @@
       "emoji": "🧁",
       "color": "pink",
       "tag": "Fan fave",
+      "best": true,
       "desc": "Vanilla sponge, mascarpone cream, fresh berries."
     },
     {
@@ -63,6 +105,7 @@
       "emoji": "🍞",
       "color": "lav",
       "tag": "Warm",
+      "best": true,
       "desc": "Soft pull-apart bread, brown-sugar swirl."
     },
     {
@@ -72,7 +115,44 @@
       "emoji": "🥧",
       "color": "mint",
       "tag": "Tart",
+      "best": true,
       "desc": "Shortcrust shell, bright lemon curd, toasted meringue."
+    },
+    {
+      "id": "cookie",
+      "name": "Choco Chunk Cookie",
+      "price": 185,
+      "emoji": "🍪",
+      "color": "peach",
+      "tag": "Gooey",
+      "desc": "Brown-butter dough, melty dark chocolate, sea salt."
+    },
+    {
+      "id": "bananabread",
+      "name": "Banana Bread",
+      "price": 205,
+      "emoji": "🍌",
+      "color": "pink",
+      "tag": "Homestyle",
+      "desc": "Ripe-lanang bananas, walnut crunch, baked daily."
+    },
+    {
+      "id": "cheeseroll",
+      "name": "Cheese Roll",
+      "price": 215,
+      "emoji": "🧀",
+      "color": "mint",
+      "tag": "Savory",
+      "desc": "Flaky pastry twisted with cream cheese and herbs."
+    },
+    {
+      "id": "redvelvet",
+      "name": "Red Velvet Cake",
+      "price": 265,
+      "emoji": "🍰",
+      "color": "lav",
+      "tag": "Indulgent",
+      "desc": "Cocoa sponge, cream-cheese frosting, a dust of crumb."
     }
   ]
 }
