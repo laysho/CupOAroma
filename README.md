@@ -23,30 +23,6 @@ node backend/server.js
 # open http://localhost:8000
 ```
 
-## Deploy to Render (free)
-1. Push this repo to GitHub (already done: `laysho/CupOAroma`).
-2. Go to https://render.com → **New → Web Service** → connect the repo.
-3. Settings:
-   - **Environment:** Node
-   - **Build Command:** *(leave blank — no deps)*
-   - **Start Command:** `node backend/server.js`
-   - **Instance Type:** Free
-4. Click **Create Web Service**. Render auto-detects the `Procfile`.
-   The app reads `process.env.PORT`, so no extra config is needed.
-5. Once live, Render gives you a URL like `https://cup-o-aroma.onrender.com`.
-
-## Deploy to Vercel
-Vercel is serverless, so it uses the API functions in `api/` instead of the
-persistent `backend/server.js`. The frontend is served statically from `frontend/`.
-
-1. Push this repo to GitHub.
-2. Go to https://vercel.com → **Add New → Project** → import `laysho/CupOAroma`.
-3. Framework Preset: **Other**. Build Command: *(none)*. Output Directory: `frontend`.
-4. Deploy. Vercel serves the site and runs `api/menu.js` / `api/orders.js` as functions.
-5. Note: because Vercel's filesystem is read-only at runtime, orders are
-   written to `/tmp` and do not persist across cold starts. For durable
-   order history, wire up Vercel KV/Postgres (out of scope here).
-
 ## API
 - `GET  /api/menu`   → `{ coffee: [...], pastries: [...] }`
 - `POST /api/orders` → `{ items:[{id,qty}], customer:{...}, payment }`
