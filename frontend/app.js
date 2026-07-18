@@ -8,6 +8,7 @@ let pendingQty = 1;
 let menu = { coffee: [], pastries: [] };
 
 const $ = (sel) => document.querySelector(sel);
+const on = (sel, ev, fn) => { const el = $(sel); if (el) el.addEventListener(ev, fn); };
 const fmt = (n) => PESO + Number(n).toLocaleString('en-PH', { maximumFractionDigits: 2 });
 
 const findItem = (id) => cart.find((c) => c.id === id);
@@ -254,18 +255,38 @@ async function loadMenu(retry = 0) {
     menu = await res.json();
     const bestCoffee = menu.coffee.filter((p) => p.best);
     const bestPastries = menu.pastries.filter((p) => p.best);
-    $('#coffeeGrid').innerHTML = bestCoffee.map(cardHTML).join('');
-    $('#pastriesGrid').innerHTML = bestPastries.map(cardHTML).join('');
-    $('#allCoffeeGrid').innerHTML = menu.coffee.map(cardHTML).join('');
-    $('#allPastriesGrid').innerHTML = menu.pastries.map(cardHTML).join('');
+
+    // Main landing page: best sellers + a fading "see full menu" teaser card
+    if ($('#coffeeGrid')) {
+      $('#coffeeGrid').innerHTML = bestCoffee.map(cardHTML).join('') + teaserCard('fullmenu.html');
+      $('#pastriesGrid').innerHTML = bestPastries.map(cardHTML).join('') + teaserCard('fullmenu.html');
+    }
+
+    // Full menu page: every item
+    if ($('#allCoffeeGrid')) {
+      $('#allCoffeeGrid').innerHTML = menu.coffee.map(cardHTML).join('');
+      $('#allPastriesGrid').innerHTML = menu.pastries.map(cardHTML).join('');
+    }
   } catch (e) {
     if (retry < 3) { setTimeout(() => loadMenu(retry + 1), 800); return; }
-    $('#coffeeGrid').innerHTML =
-      '<p class="cart-empty">Could not load menu. Is the server running? 😕 ' +
-      '<button class="btn btn-pill" id="retryMenu">Retry</button></p>';
-    const rb = $('#retryMenu');
-    if (rb) rb.addEventListener('click', () => loadMenu());
+    if ($('#coffeeGrid')) {
+      $('#coffeeGrid').innerHTML =
+        '<p class="cart-empty">Could not load menu. Is the server running? 😕 ' +
+        '<button class="btn btn-pill" id="retryMenu">Retry</button></p>';
+      const rb = $('#retryMenu');
+      if (rb) rb.addEventListener('click', () => loadMenu());
+    }
   }
+}
+
+function teaserCard(href) {
+  return `
+    <a class="menu-card teaser-card" href="${href}">
+      <div class="thumb thumb-pink teaser-thumb">⋯</div>
+      <h3>See Full Menu</h3>
+      <p>More brews &amp; bakes waiting for you.</p>
+      <div class="price-row"><span class="tag">View all →</span></div>
+    </a>`;
 }
 
 /* ---------- Misc ---------- */
@@ -301,20 +322,19 @@ function closeConfirm() {
   $('#confirmModal').setAttribute('aria-hidden', 'true');
   confirmAction = null;
 }
-$('#confirmOk').addEventListener('click', () => {
+on('#confirmOk', 'click', () => {
   const fn = confirmAction;
   closeConfirm();
   if (fn) fn();
 });
-$('#confirmCancel').addEventListener('click', closeConfirm);
-$('#confirmModal').addEventListener('click', (e) => { if (e.target.id === 'confirmModal') closeConfirm(); });
+on('#confirmCancel', 'click', closeConfirm);
 
 /* ---------- Scroll spy (navbar active indicator) ---------- */
 const navLinksAll = Array.from(document.querySelectorAll('.nav-links a[data-section]'));
 function updateActiveNav() {
   const pos = window.scrollY + 120;
   let current = '';
-  ['menu', 'pastries', 'all', 'story', 'visit'].forEach((id) => {
+  ['menu', 'pastries', 'story', 'visit'].forEach((id) => {
     const sec = document.getElementById(id);
     if (sec && sec.offsetTop <= pos) current = id;
   });
@@ -346,24 +366,25 @@ document.addEventListener('click', (e) => {
   }
 });
 
-$('#qtyMinus').addEventListener('click', () => setPendingQty(pendingQty - 1));
-$('#qtyPlus').addEventListener('click', () => setPendingQty(pendingQty + 1));
-$('#qtyConfirm').addEventListener('click', () => {
+on('#qtyMinus', 'click', () => setPendingQty(pendingQty - 1));
+on('#qtyPlus', 'click', () => setPendingQty(pendingQty + 1));
+on('#qtyConfirm', 'click', () => {
   if (!pending) return;
   addToCart(pending.id, pending.name, pending.price, pending.emoji, pendingQty);
   closeQty();
 });
-$('#qtyClose').addEventListener('click', closeQty);
+on('#qtyClose', 'click', closeQty);
 
-$('#cartBtn').addEventListener('click', openCart);
-$('#closeCart').addEventListener('click', closeCart);
-$('#overlay').addEventListener('click', closeCart);
-$('#checkoutBtn').addEventListener('click', openCheckout);
-$('#closeCheckout').addEventListener('click', closeCheckout);
-$('#backToCart').addEventListener('click', () => { closeCheckout(); openCart(); });
-$('#placeOrderBtn').addEventListener('click', placeOrder);
-$('#newOrderBtn').addEventListener('click', closeAllModals);
-$('#printReceipt').addEventListener('click', () => window.print());
+on('#cartBtn', 'click', openCart);
+on('#closeCart', 'click', closeCart);
+on('#overlay', 'click', closeCart);
+on('#checkoutBtn', 'click', openCheckout);
+on('#closeCheckout', 'click', closeCheckout);
+on('#backToCart', 'click', () => { closeCheckout(); openCart(); });
+on('#placeOrderBtn', 'click', placeOrder);
+on('#newOrderBtn', 'click', closeAllModals);
+on('#printReceipt', 'click', () => window.print());
+on('#receiptExit', 'click', closeAllModals);
 
 const navToggle = $('#navToggle');
 const navLinks = $('#navLinks');
@@ -380,9 +401,10 @@ if (navToggle) {
   );
 }
 
-$('#qtyModal').addEventListener('click', (e) => { if (e.target.id === 'qtyModal') closeQty(); });
-$('#checkoutModal').addEventListener('click', (e) => { if (e.target.id === 'checkoutModal') closeCheckout(); });
-$('#receiptModal').addEventListener('click', (e) => { if (e.target.id === 'receiptModal') closeAllModals(); });
+on('#qtyModal', 'click', (e) => { if (e.target.id === 'qtyModal') closeQty(); });
+on('#checkoutModal', 'click', (e) => { if (e.target.id === 'checkoutModal') closeCheckout(); });
+on('#receiptModal', 'click', (e) => { if (e.target.id === 'receiptModal') closeAllModals(); });
+on('#confirmModal', 'click', (e) => { if (e.target.id === 'confirmModal') closeConfirm(); });
 
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') { closeCart(); closeQty(); closeCheckout(); closeAllModals(); }
