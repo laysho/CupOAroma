@@ -1,0 +1,11 @@
+# Dependencies (none needed, but keep standard ignores)
+node_modules/
+
+# Local runtime data — keep menu.json, ignore saved orders + stray root data/
+/data/
+backend/data/orders.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log

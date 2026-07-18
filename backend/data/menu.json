@@ -1,0 +1,78 @@
+{
+  "coffee": [
+    {
+      "id": "latte",
+      "name": "Velvet Latte",
+      "price": 250,
+      "emoji": "☕",
+      "color": "pink",
+      "tag": "Bestseller",
+      "desc": "Double shot, steamed milk, a whisper of vanilla bean."
+    },
+    {
+      "id": "matcha",
+      "name": "Matcha Cloud",
+      "price": 280,
+      "emoji": "🍵",
+      "color": "mint",
+      "tag": "Vegan",
+      "desc": "Stone-ground matcha, oat milk, light honey."
+    },
+    {
+      "id": "cortado",
+      "name": "Caramel Cortado",
+      "price": 265,
+      "emoji": "🥃",
+      "color": "peach",
+      "tag": "New",
+      "desc": "Equal parts espresso and warm milk, sea-salt caramel."
+    },
+    {
+      "id": "mocha",
+      "name": "Iced Honey Mocha",
+      "price": 295,
+      "emoji": "🧊",
+      "color": "lav",
+      "tag": "Iced",
+      "desc": "Cold brew, cocoa, honey drizzle over ice."
+    }
+  ],
+  "pastries": [
+    {
+      "id": "croissant",
+      "name": "Butter Croissant",
+      "price": 210,
+      "emoji": "🥐",
+      "color": "peach",
+      "tag": "Classic",
+      "desc": "48-hour laminated dough, flaky to the last crumb."
+    },
+    {
+      "id": "cupcake",
+      "name": "Berry Cupcake",
+      "price": 225,
+      "emoji": "🧁",
+      "color": "pink",
+      "tag": "Fan fave",
+      "desc": "Vanilla sponge, mascarpone cream, fresh berries."
+    },
+    {
+      "id": "loaf",
+      "name": "Cinnamon Loaf",
+      "price": 195,
+      "emoji": "🍞",
+      "color": "lav",
+      "tag": "Warm",
+      "desc": "Soft pull-apart bread, brown-sugar swirl."
+    },
+    {
+      "id": "tart",
+      "name": "Lemon Tart",
+      "price": 255,
+      "emoji": "🥧",
+      "color": "mint",
+      "tag": "Tart",
+      "desc": "Shortcrust shell, bright lemon curd, toasted meringue."
+    }
+  ]
+}

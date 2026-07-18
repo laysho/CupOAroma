@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cup O'Aroma — Coffee &amp; Pastries</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- ===== Navbar ===== -->
+  <header class="navbar" id="top">
+    <div class="nav-inner">
+      <a href="#top" class="logo">
+        <span class="logo-cup">☕</span>
+        <span class="logo-text">Cup&nbsp;O'Aroma</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#menu">Menu</a>
+        <a href="#pastries">Pastries</a>
+        <a href="#story">Our Story</a>
+        <a href="#visit">Visit</a>
+      </nav>
+      <div class="nav-right">
+        <button class="theme-btn" id="themeBtn" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
+        <button class="cart-btn" id="cartBtn" aria-label="Open cart">
+          🛒<span class="cart-count" id="cartCount">0</span>
+        </button>
+        <a href="#menu" class="btn btn-pill">Order Now</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <span class="eyebrow">Freshly brewed · Daily baked</span>
+        <h1>Warm cups &amp; sweet little things.</h1>
+        <p>Soft mornings start here — hand-pulled espresso and pastries baked
+           fresh before the sun is up. Pull up a chair.</p>
+        <div class="hero-actions">
+          <a href="#menu" class="btn btn-solid">Explore the Menu</a>
+          <a href="#story" class="btn btn-ghost">Our Story</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <div class="art-card art-1">🥐</div>
+        <div class="art-card art-2">🍰</div>
+        <div class="art-card art-3">☕</div>
+        <div class="art-card art-4">🧁</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Coffee Menu ===== -->
+  <section class="section" id="menu">
+    <div class="section-head">
+      <span class="kicker">The Coffee Bar</span>
+      <h2>Pour-over, pull &amp; foam</h2>
+      <p>Every cup is dialed in by hand. Pick your mood, we'll do the rest.</p>
+    </div>
+    <div class="card-grid" id="coffeeGrid">
+      <p class="cart-empty" id="menuLoading">Brewing the menu… ☕</p>
+    </div>
+  </section>
+
+  <!-- ===== Pastries ===== -->
+  <section class="section section-soft" id="pastries">
+    <div class="section-head">
+      <span class="kicker">From the Oven</span>
+      <h2>Pastries, made this morning</h2>
+      <p>Butter, flour, a little patience. Baked in small trays, gone by noon.</p>
+    </div>
+    <div class="card-grid" id="pastriesGrid"></div>
+  </section>
+
+  <!-- ===== Story ===== -->
+  <section class="section story" id="story">
+    <div class="story-inner">
+      <div class="story-art">🌸</div>
+      <div class="story-copy">
+        <span class="kicker">Our Story</span>
+        <h2>A little corner, a lot of care</h2>
+        <p>Cup O'Aroma started as a Sunday ritual between friends. We wanted a
+           place that felt like a soft sweater — calm, warm, and easy to stay in.
+           Today we still roast in small batches and bake before the city wakes.</p>
+        <ul class="story-list">
+          <li>🌿 Locally roasted, single-origin beans</li>
+          <li>🥚 Pastries made with cage-free, local eggs</li>
+          <li>♻️ Compostable cups &amp; zero-waste goals</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Visit / CTA ===== -->
+  <section class="visit" id="visit">
+    <div class="visit-inner">
+      <h2>Come say hello</h2>
+      <p>Open every day, 6am – 6pm. Free Wi-Fi, slow mornings welcome.</p>
+      <div class="visit-grid">
+        <div class="visit-card"><span>📍</span><strong>Gorordo Avenue</strong><small>Lahug, Cebu City</small></div>
+        <div class="visit-card"><span>🕘</span><strong>6am – 6pm</strong><small>Seven days a week</small></div>
+        <div class="visit-card"><span>📞</span><strong>0919 558 7512</strong><small>andreasanterna58@gmail.com</small></div>
+      </div>
+      <a href="#menu" class="btn btn-solid btn-lg">Start Your Order</a>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="logo"><span class="logo-cup">☕</span><span class="logo-text">Cup O'Aroma</span></span>
+      <p>© 2026 Cup O'Aroma · Gorordo Avenue, Lahug, Cebu City</p>
+      <div class="socials">
+        <a href="tel:09195587512">0919 558 7512</a>
+        <a href="mailto:andreasanterna58@gmail.com">Email</a>
+        <a href="#">Instagram</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== Quantity Modal ===== -->
+  <div class="modal" id="qtyModal" aria-hidden="true">
+    <div class="modal-box qty-box">
+      <button class="close-x" id="qtyClose" aria-label="Close">✕</button>
+      <div class="qty-preview">
+        <div class="qty-emoji" id="qtyEmoji">☕</div>
+        <h3 id="qtyName">Item</h3>
+        <span class="qty-price" id="qtyPrice">₱0</span>
+      </div>
+      <p class="qty-label">How many?</p>
+      <div class="qty-stepper">
+        <button id="qtyMinus" aria-label="Decrease">−</button>
+        <span id="qtyNum">1</span>
+        <button id="qtyPlus" aria-label="Increase">+</button>
+      </div>
+      <button class="btn btn-solid btn-block" id="qtyConfirm">Add to cart</button>
+    </div>
+  </div>
+
+  <!-- ===== Cart Drawer (side panel) ===== -->
+  <div class="overlay" id="overlay"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+    <div class="drawer-head">
+      <h3>Your Order</h3>
+      <button class="close-x" id="closeCart" aria-label="Close cart">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="drawer-foot">
+      <div class="cart-total"><span>Total</span><strong id="cartTotal">₱0</strong></div>
+      <button class="btn btn-solid btn-block" id="checkoutBtn" disabled>Place Order</button>
+    </div>
+  </aside>
+
+  <!-- ===== Checkout Modal (billing + delivery + payment) ===== -->
+  <div class="modal" id="checkoutModal" aria-hidden="true">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3>Checkout</h3>
+        <button class="close-x" id="closeCheckout" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="billingForm" class="billing-form">
+          <h4>Customer &amp; Delivery Info</h4>
+          <label>Full Name<input type="text" name="name" required placeholder="Juan Dela Cruz" /></label>
+          <label>Email<input type="email" name="email" required placeholder="you@email.com" value="andreasanterna58@gmail.com" /></label>
+          <label>Mobile Number<input type="tel" name="mobile" required placeholder="09XX XXX XXXX" value="09195587512" /></label>
+          <label>Delivery Address<textarea name="address" rows="2" required placeholder="Street, Barangay, City">Gorordo Avenue, Lahug, Cebu City</textarea></label>
+          <label>Message for the Seller <span class="opt">(optional)</span><textarea name="note" rows="2" placeholder="e.g. less ice, call on arrival, leave at the door…"></textarea></label>
+
+          <h4>Payment Method</h4>
+          <div class="pay-opts">
+            <label class="pay-opt"><input type="radio" name="pay" value="Cash on Delivery" checked /><span>💵 Cash on Delivery</span></label>
+            <label class="pay-opt"><input type="radio" name="pay" value="GCash" /><span>📱 GCash</span></label>
+            <label class="pay-opt"><input type="radio" name="pay" value="Card" /><span>💳 Card</span></label>
+          </div>
+
+          <h4>Order Summary</h4>
+          <div class="summary" id="checkoutSummary"></div>
+          <div class="summary-total"><span>Total</span><strong id="checkoutTotal">₱0</strong></div>
+        </form>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-ghost" id="backToCart">Back</button>
+        <button class="btn btn-solid" id="placeOrderBtn">Place Order</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Receipt Modal ===== -->
+  <div class="modal" id="receiptModal" aria-hidden="true">
+    <div class="modal-box receipt-box">
+      <div class="receipt" id="receiptContent">
+        <div class="receipt-logo">☕ Cup O'Aroma</div>
+        <p class="receipt-sub">Gorordo Avenue, Lahug, Cebu City</p>
+        <p class="receipt-sub">0919 558 7512 · andreasanterna58@gmail.com</p>
+        <hr/>
+        <div class="receipt-meta" id="receiptMeta"></div>
+        <hr/>
+        <div class="receipt-items" id="receiptItems"></div>
+        <hr/>
+        <div class="receipt-row"><span>Subtotal</span><span id="receiptSubtotal">₱0</span></div>
+        <div class="receipt-row"><span>Service Charge (5%)</span><span id="receiptCharge">₱0</span></div>
+        <div class="receipt-row receipt-grand"><span>Total Paid</span><span id="receiptTotal">₱0</span></div>
+        <hr/>
+        <p class="receipt-thanks">Thank you for your order! 🌸</p>
+        <p class="receipt-note" id="receiptNote"></p>
+        <p class="receipt-pay" id="receiptPay"></p>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-ghost" id="printReceipt">🖨 Print</button>
+        <button class="btn btn-solid" id="newOrderBtn">New Order</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Toast ===== -->
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
