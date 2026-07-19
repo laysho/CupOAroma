@@ -68,16 +68,40 @@ function toast(msg) {
 }
 
 /* ---------- REAL OAuth (active when that provider's ID is filled in) ---------- */
+function randomNonce() {
+  const a = new Uint8Array(16);
+  (window.crypto || crypto).getRandomValues(a);
+  return Array.from(a, (b) => b.toString(16).padStart(2, '0')).join('');
+}
 function realGoogle() {
+  const nonce = randomNonce();
+  try { sessionStorage.setItem('coaNonce', nonce); } catch (e) {}
   const url = 'https://accounts.google.com/o/oauth2/v2/auth?' + new URLSearchParams({
     client_id: COA_AUTH.googleClientId,
     redirect_uri: REDIRECT_URI,
-    response_type: 'token',
+    response_type: 'token id_token',
     scope: 'email profile',
+    nonce,
     state: 'coa',
   }).toString();
   location.href = url;
 }
+
+// Decode a Google id_token (JWT) to read the user's profile claims.
+// Used only to DISPLAY the signed-in name — not for auth verification.
+function googleClaims(idToken) {
+  try {
+    const seg = String(idToken).split('.')[1];
+    if (!seg) return null;
+    const b64 = seg.replace(/-/g, '+').replace(/_/g, '/');
+    const bin = atob(b64);
+    const json = decodeURIComponent(
+      bin.split('').map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join('')
+    );
+    return JSON.parse(json);
+  } catch (e) { return null; }
+}
+
 // After OAuth redirect, exchange the hash token for the user's profile.
 async function googleProfile(token) {
   try {
@@ -86,21 +110,41 @@ async function googleProfile(token) {
     });
     if (!r.ok) return null;
     const d = await r.json();
-    return { provider: 'Google', name: d.name || 'Google User', email: d.email || '', picture: d.picture || '' };
+    return { provider: 'Google', name: d.name || '', email: d.email || '', picture: d.picture || '' };
   } catch (e) { return null; }
 }
 
-// When OAuth redirects back, the access token lands in the URL hash.
+// Real Google name first, else email local-part, else a friendly 'You'.
+function displayName(info) {
+  if (info.name && info.name.trim()) return info.name.trim();
+  if (info.email && info.email.includes('@')) return info.email.split('@')[0];
+  return 'You';
+}
+
+// When OAuth redirects back, the tokens land in the URL hash.
 async function handleOAuthReturn() {
   if (!location.hash.includes('access_token')) return false;
   const params = new URLSearchParams(location.hash.slice(1));
   const token = params.get('access_token');
-  let info = { provider: 'Google', name: 'Google User', email: '', picture: '' };
-  if (token) {
+  const idToken = params.get('id_token');
+
+  // Preferred: the id_token already carries the user's real name/email/picture.
+  let info = null;
+  let expectedNonce = '';
+  try { expectedNonce = sessionStorage.getItem('coaNonce') || ''; sessionStorage.removeItem('coaNonce'); } catch (e) {}
+  const claims = idToken ? googleClaims(idToken) : null;
+  if (claims && (!expectedNonce || claims.nonce === expectedNonce)) {
+    info = { provider: 'Google', name: claims.name || '', email: claims.email || '', picture: claims.picture || '' };
+  }
+  // Fallback: fetch the profile with the access token.
+  if (!info && token) {
     const prof = await googleProfile(token);
     if (prof) info = prof;
-    rememberUser(info.provider, info.name, info.email, info.picture);
   }
+  if (!info) info = { provider: 'Google', name: '', email: '', picture: '' };
+
+  const name = displayName(info);
+  rememberUser(info.provider, name, info.email, info.picture);
   // clean the hash so the token isn't echoed in the address bar
   history.replaceState(null, '', location.pathname);
   goToShop();

@@ -461,13 +461,15 @@ function initialsOf(name) {
   const menu = document.getElementById('profileMenu');
   if (!u || !menu) return;
   menu.style.display = 'inline-flex';
-  const name = u.name || u.provider;
+  const name = (u.name && u.name.trim()) || (u.email && u.email.includes('@') ? u.email.split('@')[0] : '') || 'You';
   const avatar = document.getElementById('profileAvatar');
   const greeting = document.getElementById('profileGreeting');
+  const nameEl = document.getElementById('profileName');
   const dropdown = document.getElementById('profileDropdown');
   const so = document.getElementById('signOutBtn');
-  if (avatar) avatar.textContent = initialsOf(name);
+  if (avatar) { avatar.textContent = initialsOf(name); avatar.title = name; }
   if (greeting) greeting.textContent = 'Hi, ' + name;
+  if (nameEl) nameEl.textContent = 'Hi, ' + name;
   if (so) so.addEventListener('click', signOut);
   if (avatar && dropdown) {
     avatar.addEventListener('click', (e) => {
