@@ -18,7 +18,7 @@
                 → Permissions: email, public_profile
    ---------------------------------------------------------------------- */
 const COA_AUTH = {
-  googleClientId: '',   // e.g. '1234567890-abc.apps.googleusercontent.com'
+  googleClientId: '558724368617-4m9hi5si66j23us6obb2pqcsjtg4lefq.apps.googleusercontent.com',
   facebookAppId: '',    // e.g. '123456789012345'
 };
 
