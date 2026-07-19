@@ -3,11 +3,10 @@
    by app.js: it redirects here unless sessionStorage 'cupGate' === 'open'.
 
    ----------------------------------------------------------------------
-   REAL OAUTH (no extra libraries needed):
-   Paste your credentials below. When BOTH are present the buttons perform
-   a real Google / Facebook OAuth popup-less redirect sign-in. Until then
-   the page runs in DEMO mode: clicking a provider simulates a sign-in so
-   the flow is fully clickable and the rest of the site works end-to-end.
+   REAL OAUTH ONLY (no demo mode, no guest):
+   Paste your credentials below. Each button performs a real Google / Facebook
+   OAuth redirect sign-in (Implicit flow). Without a provider's ID, that button
+   shows a "not configured" hint instead of signing in.
 
      Google:    https://console.cloud.google.com/apis/credentials
                 → OAuth 2.0 Client ID (Web application)
@@ -73,14 +72,7 @@ function toast(msg) {
   t._timer = setTimeout(() => t.classList.remove('show'), 1800);
 }
 
-/* ---------- DEMO sign-in (works with no credentials) ---------- */
-function demoSignIn(provider) {
-  rememberUser(provider, provider === 'Google' ? 'Google User' : provider === 'Facebook' ? 'Facebook User' : 'Guest');
-  toast('Signed in with ' + provider + ' ✨');
-  setTimeout(goToShop, 450);
-}
-
-/* ---------- REAL OAuth (active only when both IDs are filled in) ---------- */
+/* ---------- REAL OAuth (active when that provider's ID is filled in) ---------- */
 function realGoogle() {
   const url = 'https://accounts.google.com/o/oauth2/v2/auth?' + new URLSearchParams({
     client_id: COA_AUTH.googleClientId,
@@ -151,7 +143,8 @@ function signIn(provider) {
     if (provider === 'Google') return realGoogle();
     if (provider === 'Facebook') return realFacebook();
   }
-  demoSignIn(provider); // demo / guest path (also the real fallback)
+  toast('Sign-in with ' + provider + ' isn’t set up yet — add your ' +
+    (provider === 'Google' ? 'Google Client ID' : 'Facebook App ID') + ' in landing.js.');
 }
 
 document.querySelectorAll('[data-auth]').forEach((btn) => {
