@@ -431,6 +431,19 @@ $('#themeBtn').addEventListener('click', () => {
 });
 
 /* ---------- Init ---------- */
+/* Gate: the shop requires a sign-in from the landing page (index.html).
+   sessionStorage 'cupGate' === 'open' is set by landing.js on sign-in. */
+(function gate() {
+  let open = false;
+  try { open = sessionStorage.getItem('cupGate') === 'open'; } catch (e) {}
+  if (!open) {
+    const href = location.pathname;
+    if (href.endsWith('shop.html') || href.endsWith('fullmenu.html')) {
+      location.replace('index.html');
+    }
+  }
+})();
+
 initTheme();
 loadCart();
 renderCart();

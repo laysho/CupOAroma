@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cup O'Aroma — Coffee &amp; Pastries</title>
+  <meta name="description" content="Cup O'Aroma — soft mornings, hand-pulled espresso and pastries baked fresh daily in Lahug, Cebu City." />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="apple-touch-icon" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -11,233 +12,82 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
-  <!-- ===== Navbar ===== -->
-  <header class="navbar" id="top">
+<body class="landing">
+  <header class="navbar landing-nav">
     <div class="nav-inner">
-      <a href="#top" class="logo">
+      <span class="logo">
         <span class="logo-cup">☕</span>
         <span class="logo-text">Cup&nbsp;O'Aroma</span>
-      </a>
-      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">☰</button>
-      <nav class="nav-links" id="navLinks">
-        <a href="#menu" data-section="menu">Menu</a>
-        <a href="#pastries" data-section="pastries">Pastries</a>
-        <a href="fullmenu.html" data-section="all">Full Menu</a>
-        <a href="#story" data-section="story">Our Story</a>
-        <a href="#visit" data-section="visit">Visit</a>
-      </nav>
+      </span>
       <div class="nav-right">
         <button class="theme-btn" id="themeBtn" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
-        <button class="cart-btn" id="cartBtn" aria-label="Open cart">
-          🛒<span class="cart-count" id="cartCount">0</span>
-        </button>
-        <a href="#menu" class="btn btn-pill">Order Now</a>
       </div>
     </div>
   </header>
 
-  <!-- ===== Hero ===== -->
-  <section class="hero">
-    <div class="hero-bg" aria-hidden="true"></div>
-    <div class="hero-inner">
-      <div class="hero-copy">
-        <span class="eyebrow">Freshly brewed · Daily baked</span>
-        <h1>Warm cups &amp; sweet little things.</h1>
-        <p>Soft mornings start here — hand-pulled espresso and pastries baked
-           fresh before the sun is up. Pull up a chair.</p>
-        <div class="hero-actions">
-          <a href="#menu" class="btn btn-solid">Explore the Menu</a>
-          <a href="#story" class="btn btn-ghost">Our Story</a>
+  <main class="landing-wrap">
+    <section class="landing-hero">
+      <div class="landing-bg" aria-hidden="true"></div>
+
+      <div class="landing-card">
+        <!-- Brand mark (inline SVG so it always renders, no MIME dependency) -->
+        <div class="brand-mark" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="92" height="92">
+            <defs>
+              <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#FCE4EE"/><stop offset="1" stop-color="#E4F5EA"/>
+              </linearGradient>
+              <linearGradient id="cup" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#F8C8DC"/><stop offset="1" stop-color="#CDEBD6"/>
+              </linearGradient>
+            </defs>
+            <circle cx="32" cy="32" r="30" fill="url(#bg)" stroke="#E7B7C8" stroke-width="2"/>
+            <path d="M20 26 h20 v10 a10 10 0 0 1 -10 10 h0 a10 10 0 0 1 -10 -10 z" fill="url(#cup)" stroke="#6F4E37" stroke-width="2"/>
+            <path d="M40 28 h4 a5 5 0 0 1 0 10 h-2" fill="none" stroke="#6F4E37" stroke-width="2" stroke-linecap="round"/>
+            <path d="M27 18 q-3 -4 0 -8 M33 18 q3 -4 0 -8" fill="none" stroke="#F8C8DC" stroke-width="2.4" stroke-linecap="round"/>
+            <ellipse cx="30" cy="26" rx="10" ry="2.6" fill="#FFF8F1" stroke="#6F4E37" stroke-width="1.6"/>
+          </svg>
         </div>
-      </div>
-      <div class="hero-art">
-        <div class="art-card art-1">🥐</div>
-        <div class="art-card art-2">🍰</div>
-        <div class="art-card art-3">☕</div>
-        <div class="art-card art-4">🧁</div>
-      </div>
-    </div>
-  </section>
+        <span class="kicker">Coffee · Pastries · Cebu</span>
+        <h1 class="brand-name">Cup&nbsp;O'Aroma</h1>
+        <p class="brand-tag">Warm cups &amp; sweet little things.<br/>Sign in to start your order.</p>
 
-  <!-- ===== Coffee Menu (best sellers) ===== -->
-  <section class="section" id="menu">
-    <div class="section-head">
-      <span class="kicker">The Coffee Bar · Best Sellers</span>
-      <h2>Pour-over, pull &amp; foam</h2>
-      <p>Every cup is dialed in by hand. Pick your mood, we'll do the rest.</p>
-    </div>
-    <div class="card-grid" id="coffeeGrid">
-      <p class="cart-empty" id="menuLoading">Brewing the menu… ☕</p>
-    </div>
-  </section>
+        <!-- Auth block (shown when not yet signed in) -->
+        <div id="authBlock" class="auth-block">
+          <button class="auth-btn auth-google" data-auth="Google" type="button">
+            <span class="auth-ico" aria-hidden="true">
+              <svg viewBox="0 0 48 48" width="22" height="22"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.9 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.3 13.2 17.6 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.5 3-2.2 5.5-4.7 7.2l7.3 5.7c4.3-3.9 6.8-9.7 6.8-17.4z"/><path fill="#FBBC05" d="M10.5 28.3c-.5-1.4-.8-2.9-.8-4.3s.3-2.9.8-4.3l-7.9-6.1C1 16.2 0 19.9 0 24s1 7.8 2.6 11.4l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.3 0 11.6-2.1 15.5-5.7l-7.3-5.7c-2 1.4-4.7 2.3-8.2 2.3-6.4 0-11.7-3.7-13.5-9.1l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>
+            </span>
+            Continue with Google
+          </button>
 
-  <!-- ===== Pastries (best sellers) ===== -->
-  <section class="section section-soft" id="pastries">
-    <div class="section-head">
-      <span class="kicker">From the Oven · Best Sellers</span>
-      <h2>Pastries, made this morning</h2>
-      <p>Butter, flour, a little patience. Baked in small trays, gone by noon.</p>
-    </div>
-    <div class="card-grid" id="pastriesGrid"></div>
-  </section>
+          <button class="auth-btn auth-facebook" data-auth="Facebook" type="button">
+            <span class="auth-ico" aria-hidden="true">
+              <svg viewBox="0 0 48 48" width="22" height="22"><path fill="#1877F2" d="M48 24C48 10.7 37.3 0 24 0S0 10.7 0 24c0 11.8 8.6 21.6 20 23.5v-16.6H14v-6.9h6V17c0-6 3.6-9.3 9-9.3 2.6 0 5.3.5 5.3.5v5.8h-3c-2.9 0-3.8 1.8-3.8 3.7V21h6.5l-1 6.9h-5.5v16.6C39.4 45.6 48 35.8 48 24z"/></svg>
+            </span>
+            Continue with Facebook
+          </button>
 
-  <!-- ===== Story ===== -->
-  <section class="section story" id="story">
-    <div class="story-inner">
-      <div class="story-art">🌸</div>
-      <div class="story-copy">
-        <span class="kicker">Our Story</span>
-        <h2>A little corner, a lot of care</h2>
-        <p>Cup O'Aroma started as a Sunday ritual between friends. We wanted a
-           place that felt like a soft sweater — calm, warm, and easy to stay in.
-           Today we still roast in small batches and bake before the city wakes.</p>
-        <ul class="story-list">
-          <li>🌿 Locally roasted, single-origin beans</li>
-          <li>🥚 Pastries made with cage-free, local eggs</li>
-          <li>♻️ Compostable cups &amp; zero-waste goals</li>
-        </ul>
+          <div class="auth-divider"><span>or</span></div>
+
+          <button class="auth-btn auth-guest" data-auth="Guest" type="button">
+            Continue as Guest
+          </button>
+        </div>
+
+        <!-- Signed-in quick re-entry (shown when gate already open this session) -->
+        <div id="signedIn" class="signed-in" style="display:none;">
+          <p class="signed-msg">You're signed in. Welcome back 🌸</p>
+          <button class="btn btn-solid btn-block" id="enterShop" type="button" onclick="location.replace('shop.html')">Enter the Café</button>
+        </div>
+
+        <p class="landing-fine">By continuing you agree to our cozy Terms &amp; warm Cookies.</p>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
-  <!-- ===== Visit / CTA ===== -->
-  <section class="visit" id="visit">
-    <div class="visit-inner">
-      <h2>Come say hello</h2>
-      <p>Open every day, 6am – 6pm. Free Wi-Fi, slow mornings welcome.</p>
-      <div class="visit-grid">
-        <div class="visit-card"><span>📍</span><strong>Gorordo Avenue</strong><small>Lahug, Cebu City</small></div>
-        <div class="visit-card"><span>🕘</span><strong>6am – 6pm</strong><small>Seven days a week</small></div>
-        <div class="visit-card"><span>📞</span><strong>0919 558 7512</strong><small>cupoaroma@gmail.com</small></div>
-      </div>
-      <a href="#menu" class="btn btn-solid btn-lg">Start Your Order</a>
-    </div>
-  </section>
-
-  <!-- ===== Footer ===== -->
-  <footer class="footer">
-    <div class="footer-inner">
-      <span class="logo"><span class="logo-cup">☕</span><span class="logo-text">Cup O'Aroma</span></span>
-      <p>© 2026 Cup O'Aroma · Gorordo Avenue, Lahug, Cebu City</p>
-      <div class="socials">
-        <a href="tel:09195587512">0919 558 7512</a>
-        <a href="mailto:cupoaroma@gmail.com">Email</a>
-        <a href="#">Instagram</a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- ===== Quantity Modal ===== -->
-  <div class="modal" id="qtyModal" aria-hidden="true">
-    <div class="modal-box qty-box">
-      <button class="close-x" id="qtyClose" aria-label="Close">✕</button>
-      <div class="qty-preview">
-        <div class="qty-emoji" id="qtyEmoji">☕</div>
-        <h3 id="qtyName">Item</h3>
-        <span class="qty-price" id="qtyPrice">₱0</span>
-      </div>
-      <p class="qty-label">How many?</p>
-      <div class="qty-stepper">
-        <button id="qtyMinus" aria-label="Decrease">−</button>
-        <span id="qtyNum">1</span>
-        <button id="qtyPlus" aria-label="Increase">+</button>
-      </div>
-      <button class="btn btn-solid btn-block" id="qtyConfirm">Add to cart</button>
-    </div>
-  </div>
-
-  <!-- ===== Cart Drawer (side panel) ===== -->
-  <div class="overlay" id="overlay"></div>
-  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
-    <div class="drawer-head">
-      <h3>Your Order</h3>
-      <button class="close-x" id="closeCart" aria-label="Close cart">✕</button>
-    </div>
-    <div class="cart-items" id="cartItems"></div>
-    <div class="drawer-foot">
-      <div class="cart-total"><span>Total</span><strong id="cartTotal">₱0</strong></div>
-      <button class="btn btn-solid btn-block" id="checkoutBtn" disabled>Place Order</button>
-    </div>
-  </aside>
-
-  <!-- ===== Checkout Modal (billing + delivery + payment) ===== -->
-  <div class="modal" id="checkoutModal" aria-hidden="true">
-    <div class="modal-box">
-      <div class="modal-head">
-        <h3>Checkout</h3>
-        <button class="close-x" id="closeCheckout" aria-label="Close">✕</button>
-      </div>
-      <div class="modal-body">
-        <form id="billingForm" class="billing-form">
-          <h4>Customer &amp; Delivery Info</h4>
-          <label>Full Name<input type="text" name="name" required placeholder="Juan Dela Cruz" /></label>
-          <label>Email<input type="email" name="email" required placeholder="you@email.com" /></label>
-          <label>Mobile Number<input type="tel" name="mobile" required placeholder="09XX XXX XXXX" /></label>
-          <label>Delivery Address<textarea name="address" rows="2" required placeholder="Street, Barangay, City"></textarea></label>
-          <label>Message for the Seller <span class="opt">(optional)</span><textarea name="note" rows="2" placeholder="e.g. less ice, call on arrival, leave at the door…"></textarea></label>
-
-          <h4>Payment Method</h4>
-          <div class="pay-opts">
-            <label class="pay-opt"><input type="radio" name="pay" value="Cash on Delivery" checked /><span>💵 Cash on Delivery</span></label>
-            <label class="pay-opt"><input type="radio" name="pay" value="GCash" /><span>📱 GCash</span></label>
-            <label class="pay-opt"><input type="radio" name="pay" value="Card" /><span>💳 Card</span></label>
-          </div>
-
-          <h4>Order Summary</h4>
-          <div class="summary" id="checkoutSummary"></div>
-          <div class="summary-total"><span>Total</span><strong id="checkoutTotal">₱0</strong></div>
-        </form>
-      </div>
-      <div class="modal-foot">
-        <button class="btn btn-ghost" id="backToCart">Back</button>
-        <button class="btn btn-solid" id="placeOrderBtn">Place Order</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== Receipt Modal ===== -->
-  <div class="modal" id="receiptModal" aria-hidden="true">
-    <div class="modal-box receipt-box">
-      <div class="receipt" id="receiptContent">
-        <div class="receipt-logo">☕ Cup O'Aroma</div>
-        <p class="receipt-sub">Gorordo Avenue, Lahug, Cebu City</p>
-        <p class="receipt-sub">0919 558 7512 · cupoaroma@gmail.com</p>
-        <hr/>
-        <div class="receipt-meta" id="receiptMeta"></div>
-        <hr/>
-        <div class="receipt-items" id="receiptItems"></div>
-        <hr/>
-        <div class="receipt-row"><span>Subtotal</span><span id="receiptSubtotal">₱0</span></div>
-        <div class="receipt-row"><span>Service Charge (5%)</span><span id="receiptCharge">₱0</span></div>
-        <div class="receipt-row receipt-grand"><span>Total Paid</span><span id="receiptTotal">₱0</span></div>
-        <hr/>
-        <p class="receipt-thanks">Thank you for your order! 🌸</p>
-        <p class="receipt-note" id="receiptNote"></p>
-        <p class="receipt-pay" id="receiptPay"></p>
-      </div>
-      <div class="modal-foot">
-        <button class="btn btn-ghost" id="printReceipt">🖨 Print</button>
-        <button class="btn btn-solid" id="newOrderBtn">New Order</button>
-        <button class="btn btn-ghost" id="receiptExit">Done</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== Confirm modal ===== -->
-  <div class="modal" id="confirmModal" aria-hidden="true">
-    <div class="modal-box confirm-box">
-      <div class="confirm-body" id="confirmMsg">Are you sure?</div>
-      <div class="modal-foot confirm-foot">
-        <button class="btn btn-ghost" id="confirmCancel">Cancel</button>
-        <button class="btn btn-solid" id="confirmOk">Yes, remove</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== Toast ===== -->
   <div class="toast" id="toast"></div>
 
-  <script src="app.js"></script>
+  <script src="landing.js"></script>
 </body>
 </html>

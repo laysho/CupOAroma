@@ -32,6 +32,7 @@ const MIME = {
   '.js': 'text/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
   '.ico': 'image/x-icon',
+  '.svg': 'image/svg+xml',
 };
 function send(res, status, body, type = 'application/json; charset=utf-8') {
   const out = typeof body === 'string' ? body : JSON.stringify(body);
