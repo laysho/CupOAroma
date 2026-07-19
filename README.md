@@ -5,8 +5,8 @@ zero-dependency Node backend (menu + orders API).
 
 ## Pages
 - `index.html` — **Landing / sign-in gate.** The first thing every visitor sees:
-  the logo, the name, and a choice to sign in with **Google** or **Facebook**
-  (real OAuth — no guest/demo). Styling matches the shop (same pastel palette,
+  the logo, the name, and a **Continue with Google** button (real OAuth — no
+  guest/demo, no Facebook). Styling matches the shop (same pastel palette,
   same dark mode).
 - `shop.html` — the coffee + pastries store (menu, cart, checkout, receipt).
 - `fullmenu.html` — every item on the menu.
@@ -15,27 +15,25 @@ zero-dependency Node backend (menu + orders API).
 the landing page, they redirect back to `index.html`. Sign-in is tracked in
 `sessionStorage` (`cupGate` = `open`) for the browsing session.
 
-## Sign-in — real Google / Facebook OAuth only
-The landing requires a **real** Google or Facebook sign-in (no guest, no demo mode).
-Open `frontend/landing.js` and fill in the ID(s) for the provider(s) you want to
-enable:
+## Sign-in — real Google OAuth only
+The landing requires a **real** Google sign-in (no guest, no demo mode, no Facebook).
+Open `frontend/landing.js` and set your Google Client ID:
 ```js
 const COA_AUTH = {
-  googleClientId: '',   // Google Cloud Console → OAuth 2.0 Client ID (Web)
-  facebookAppId: '',    // Facebook Developers → App ID
+  googleClientId: 'YOUR_ID.apps.googleusercontent.com',
 };
 ```
-Each button goes live independently as soon as its ID is present. Clicking it performs
-an OAuth redirect (Implicit flow, `access_token` returned in the URL hash); the landing
-then fetches the account's name/email and drops you into the shop. Redirect URIs to
-allow:
-- Google: `https://cup-o-aroma.vercel.app/` (and `http://localhost:8000/` for local)
-- Facebook: same origins under "Valid OAuth Redirect URIs"
+Clicking it performs an OAuth redirect (Implicit flow, `access_token` returned in the
+URL hash); the landing then fetches the account's name/email and drops you into the
+shop. Redirect URIs to allow in Google Cloud Console:
+- `https://cup-o-aroma.vercel.app/` (and `http://localhost:8000/` for local)
 
-Set up:
-- Google: https://console.cloud.google.com/apis/credentials (scope `email profile`)
-- Facebook: https://developers.facebook.com/apps → add "Facebook Login" (Web)
-  (permissions `email`, `public_profile`)
+Set up: https://console.cloud.google.com/apis/credentials → OAuth 2.0 Client ID (Web),
+scopes `email profile`.
+
+Note: while the Google Cloud project is in "Testing" mode, only accounts you add as
+**test users** can sign in. Publish the app (or add users under Audience → Test users)
+to let anyone log in.
 
 ## Features
 - Pastel UI with light + dark mode (shared across landing + shop)

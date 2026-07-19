@@ -4,22 +4,17 @@
 
    ----------------------------------------------------------------------
    REAL OAUTH ONLY (no demo mode, no guest):
-   Paste your credentials below. Each button performs a real Google / Facebook
-   OAuth redirect sign-in (Implicit flow). Without a provider's ID, that button
-   shows a "not configured" hint instead of signing in.
+   The "Continue with Google" button performs a real Google OAuth redirect
+   sign-in (Implicit flow). Without a Client ID it shows a "not configured"
+   hint instead of signing in.
 
      Google:    https://console.cloud.google.com/apis/credentials
                 → OAuth 2.0 Client ID (Web application)
                 → Authorized redirect URI must include this page URL
                 → Scopes: email, profile
-     Facebook:  https://developers.facebook.com/apps
-                → Add "Facebook Login" (Web)
-                → Valid OAuth Redirect URIs must include this page URL
-                → Permissions: email, public_profile
    ---------------------------------------------------------------------- */
 const COA_AUTH = {
   googleClientId: '558724368617-4m9hi5si66j23us6obb2pqcsjtg4lefq.apps.googleusercontent.com',
-  facebookAppId: '',    // e.g. '123456789012345'
 };
 
 const REDIRECT_URI = location.origin + location.pathname;
@@ -83,16 +78,6 @@ function realGoogle() {
   }).toString();
   location.href = url;
 }
-function realFacebook() {
-  const url = 'https://www.facebook.com/v19.0/dialog/oauth?' + new URLSearchParams({
-    client_id: COA_AUTH.facebookAppId,
-    redirect_uri: REDIRECT_URI,
-    response_type: 'token',
-    scope: 'email,public_profile',
-    state: 'coa',
-  }).toString();
-  location.href = url;
-}
 // After OAuth redirect, exchange the hash token for the user's profile.
 async function googleProfile(token) {
   try {
@@ -104,25 +89,15 @@ async function googleProfile(token) {
     return { provider: 'Google', name: d.name || 'Google User', email: d.email || '', picture: d.picture || '' };
   } catch (e) { return null; }
 }
-async function facebookProfile(token) {
-  try {
-    const r = await fetch('https://graph.facebook.com/me?fields=name,email,picture&access_token=' + encodeURIComponent(token));
-    if (!r.ok) return null;
-    const d = await r.json();
-    const pic = d.picture && d.picture.data && d.picture.data.url ? d.picture.data.url : '';
-    return { provider: 'Facebook', name: d.name || 'Facebook User', email: d.email || '', picture: pic };
-  } catch (e) { return null; }
-}
 
 // When OAuth redirects back, the access token lands in the URL hash.
 async function handleOAuthReturn() {
   if (!location.hash.includes('access_token')) return false;
   const params = new URLSearchParams(location.hash.slice(1));
   const token = params.get('access_token');
-  const provider = location.href.includes('facebook') ? 'Facebook' : 'Google';
-  let info = { provider, name: provider + ' User', email: '', picture: '' };
+  let info = { provider: 'Google', name: 'Google User', email: '', picture: '' };
   if (token) {
-    const prof = provider === 'Facebook' ? await facebookProfile(token) : await googleProfile(token);
+    const prof = await googleProfile(token);
     if (prof) info = prof;
     rememberUser(info.provider, info.name, info.email, info.picture);
   }
@@ -135,16 +110,13 @@ async function handleOAuthReturn() {
 /* ---------- Wire up buttons ---------- */
 function realFor(provider) {
   if (provider === 'Google') return !!COA_AUTH.googleClientId;
-  if (provider === 'Facebook') return !!COA_AUTH.facebookAppId;
   return false;
 }
 function signIn(provider) {
   if (realFor(provider)) {
     if (provider === 'Google') return realGoogle();
-    if (provider === 'Facebook') return realFacebook();
   }
-  toast('Sign-in with ' + provider + ' isn’t set up yet — add your ' +
-    (provider === 'Google' ? 'Google Client ID' : 'Facebook App ID') + ' in landing.js.');
+  toast('Sign-in with ' + provider + ' isn’t set up yet — add your Google Client ID in landing.js.');
 }
 
 document.querySelectorAll('[data-auth]').forEach((btn) => {

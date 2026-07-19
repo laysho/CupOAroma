@@ -444,22 +444,44 @@ $('#themeBtn').addEventListener('click', () => {
   }
 })();
 
-/* ---------- Signed-in identity + logout (shop side) ---------- */
+/* ---------- Signed-in identity + profile dropdown (shop side) ---------- */
 function signOut() {
   try { sessionStorage.removeItem('cupGate'); sessionStorage.removeItem('cupUser'); } catch (e) {}
   location.replace('index.html');
 }
-(function showUser() {
+function initialsOf(name) {
+  const parts = String(name || '').trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return '☕';
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+(function setupProfile() {
   let u = null;
   try { u = JSON.parse(sessionStorage.getItem('cupUser') || 'null'); } catch (e) {}
-  const chip = document.getElementById('userChip');
-  if (u && chip) {
-    const nm = document.getElementById('userName');
-    if (nm) nm.textContent = 'Hi, ' + (u.name || u.provider);
-    chip.style.display = 'inline-flex';
-  }
+  const menu = document.getElementById('profileMenu');
+  if (!u || !menu) return;
+  menu.style.display = 'inline-flex';
+  const name = u.name || u.provider;
+  const avatar = document.getElementById('profileAvatar');
+  const greeting = document.getElementById('profileGreeting');
+  const dropdown = document.getElementById('profileDropdown');
   const so = document.getElementById('signOutBtn');
+  if (avatar) avatar.textContent = initialsOf(name);
+  if (greeting) greeting.textContent = 'Hi, ' + name;
   if (so) so.addEventListener('click', signOut);
+  if (avatar && dropdown) {
+    avatar.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = dropdown.classList.toggle('open');
+      avatar.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    document.addEventListener('click', (e) => {
+      if (!menu.contains(e.target)) {
+        dropdown.classList.remove('open');
+        avatar.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
 })();
 
 initTheme();

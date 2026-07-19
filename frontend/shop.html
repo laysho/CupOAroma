@@ -29,15 +29,18 @@
         <a href="#visit" data-section="visit">Visit</a>
       </nav>
       <div class="nav-right">
-        <span class="user-chip" id="userChip" style="display:none;">
-          <span class="user-name" id="userName"></span>
-          <button class="signout-btn" id="signOutBtn" type="button">Sign out</button>
-        </span>
         <button class="theme-btn" id="themeBtn" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
         <button class="cart-btn" id="cartBtn" aria-label="Open cart">
           🛒<span class="cart-count" id="cartCount">0</span>
         </button>
         <a href="#menu" class="btn btn-pill">Order Now</a>
+        <div class="profile-menu" id="profileMenu" style="display:none;">
+          <button class="profile-avatar" id="profileAvatar" type="button" aria-haspopup="true" aria-expanded="false" title="Account"></button>
+          <div class="profile-dropdown" id="profileDropdown" role="menu">
+            <p class="profile-greeting" id="profileGreeting"></p>
+            <button class="profile-signout" id="signOutBtn" type="button" role="menuitem">Sign out</button>
+          </div>
+        </div>
       </div>
     </div>
   </header>
