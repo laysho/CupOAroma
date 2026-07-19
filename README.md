@@ -16,18 +16,22 @@ the landing page, they redirect back to `index.html`. Sign-in is tracked in
 
 ## Sign-in — demo vs. real OAuth
 The landing works **today with no setup** (demo mode): clicking Google / Facebook /
-Guest stores a simulated session and enters the shop, so the whole flow is clickable
-and the rest of the site functions end-to-end.
+Guest stores a simulated session (name shown in the shop navbar) and enters the shop,
+so the whole flow is clickable and the rest of the site functions end-to-end. A
+**Sign out** button in the shop navbar clears the session and returns to the landing.
 
-To switch to **real Google/Facebook OAuth**, open `frontend/landing.js` and fill in:
+To switch to **real Google/Facebook OAuth**, open `frontend/landing.js` and fill in
+either or both of:
 ```js
 const COA_AUTH = {
   googleClientId: '',   // Google Cloud Console → OAuth 2.0 Client ID (Web)
   facebookAppId: '',    // Facebook Developers → App ID
 };
 ```
-When **both** are filled in, the buttons perform a real OAuth redirect sign-in
-(Implicit flow, `access_token` returned in the URL hash). Redirect URIs to allow:
+Each button goes live independently as soon as its ID is present (per-provider real
+detection). In real mode the button performs an OAuth redirect (Implicit flow,
+`access_token` returned in the URL hash); the landing then fetches the account's
+name/email and drops you into the shop. Redirect URIs to allow:
 - Google: `https://cup-o-aroma.vercel.app/` (and `http://localhost:8000/` for local)
 - Facebook: same origins under "Valid OAuth Redirect URIs"
 

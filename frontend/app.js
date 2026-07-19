@@ -444,6 +444,24 @@ $('#themeBtn').addEventListener('click', () => {
   }
 })();
 
+/* ---------- Signed-in identity + logout (shop side) ---------- */
+function signOut() {
+  try { sessionStorage.removeItem('cupGate'); sessionStorage.removeItem('cupUser'); } catch (e) {}
+  location.replace('index.html');
+}
+(function showUser() {
+  let u = null;
+  try { u = JSON.parse(sessionStorage.getItem('cupUser') || 'null'); } catch (e) {}
+  const chip = document.getElementById('userChip');
+  if (u && chip) {
+    const nm = document.getElementById('userName');
+    if (nm) nm.textContent = 'Hi, ' + (u.name || u.provider);
+    chip.style.display = 'inline-flex';
+  }
+  const so = document.getElementById('signOutBtn');
+  if (so) so.addEventListener('click', signOut);
+})();
+
 initTheme();
 loadCart();
 renderCart();
